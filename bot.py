@@ -4,6 +4,8 @@ import random
 import discord
 from discord.ext import commands
 from discord import Intents
+#this is for webhosting
+from keep_alive import keep_alive
 #what are your intents with my daughter?
 intents = discord.Intents.default()
 intents.messages = True
@@ -69,5 +71,7 @@ async def _Deston(ctx):
 @client.command(aliases=['Rondo','rondo'])
 async def _Rondo(ctx):
     await ctx.send(random.choice(Rondo_list))
-
+    
+#Reference to the webhost file    
+keep_alive()
 client.run(TOKEN)
