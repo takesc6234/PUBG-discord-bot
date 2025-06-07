@@ -1,8 +1,11 @@
 # bot.py
+import flask
 import os
 import random
 import discord
 from discord.ext import commands
+from discord.ext.commands import CommandOnCooldown
+
 from discord import Intents
 #this is for webhosting
 from keep_alive import keep_alive
@@ -38,62 +41,65 @@ GUILD = os.getenv('DISCORD_GUILD')
 # Client responses, this is gonna be reworked into something cleaner.
 @client.command(aliases=['Erangel','erangel'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Erangel(ctx):
+async def _Erangel(ctx):
     await ctx.send(random.choice(Erangel_list))
 
 @client.command(aliases=['Vikendi', 'vikendi'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Vikendi(ctx):
+async def _Vikendi(ctx):
     await ctx.send(random.choice(Vikendi_list))
 
 @client.command(aliases=['Miramar', 'miramar'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Miramar(ctx):
+async def _Miramar(ctx):
     await ctx.send(random.choice(Miramar_list))
 
 @client.command(aliases=['Sanhok', 'sanhok'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Sanhok(ctx):
+async def _Sanhok(ctx):
     await ctx.send(random.choice(Sanhok_list))
 
 @client.command(aliases=['Maps','maps'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Maps(ctx):
+async def _Maps(ctx):
     await ctx.send(Maps_list)
 
 @client.command(aliases=['Test','test'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Test(ctx):
+async def _Test(ctx):
     await ctx.send("Hello does this mic work? 1-2,1-2")
 
 @client.command(aliases=['Taego','taego'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Taego(ctx):
+async def _Taego(ctx):
     await ctx.send(random.choice(Taego_list))
 
 @client.command(aliases=['Deston','deston'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Deston(ctx):
+async def _Deston(ctx):
     await ctx.send(random.choice(Deston_list))    
 
 @client.command(aliases=['Rondo','rondo'])
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def Rondo(ctx):
+async def _Rondo(ctx):
     await ctx.send(random.choice(Rondo_list))
 
 #Error handling for excessive use
-@Erangel.Error
-@Vikendi.Error
-@Miramar.Error
-@Sanhok.Error
-@Taego.Error
-@Deston.Error
-@Rondo.Error
-@Maps.Error
-@Test.Error
+@_Erangel.error
+@_Vikendi.error
+@_Miramar.error
+@_Sanhok.error
+@_Taego.error
+@_Deston.error
+@_Rondo.error
+@_Maps.error
+@_Test.error
 async def on_command_error(ctx, error):
     if isinstance(error, CommandOnCooldown):
         await ctx.send(f"You're too many commands too fast. Try again in {error.retry_after:.2f} seconds.")
+    else:
+        print(f"Error occurred: {error}")
+        await ctx.send(f"An error occurred: {str(error)}")
 
 
 #Reference to the webhost file    
