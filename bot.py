@@ -37,41 +37,66 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 # Client responses, this is gonna be reworked into something cleaner.
 @client.command(aliases=['Erangel','erangel'])
-async def _Erangel(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Erangel(ctx):
     await ctx.send(random.choice(Erangel_list))
 
 @client.command(aliases=['Vikendi', 'vikendi'])
-async def _Vikendi(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Vikendi(ctx):
     await ctx.send(random.choice(Vikendi_list))
 
 @client.command(aliases=['Miramar', 'miramar'])
-async def _Miramar(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Miramar(ctx):
     await ctx.send(random.choice(Miramar_list))
 
 @client.command(aliases=['Sanhok', 'sanhok'])
-async def _Sanhok(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Sanhok(ctx):
     await ctx.send(random.choice(Sanhok_list))
 
 @client.command(aliases=['Maps','maps'])
-async def _Maps(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Maps(ctx):
     await ctx.send(Maps_list)
 
 @client.command(aliases=['Test','test'])
-async def _Test(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Test(ctx):
     await ctx.send("Hello does this mic work? 1-2,1-2")
 
 @client.command(aliases=['Taego','taego'])
-async def _Taego(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Taego(ctx):
     await ctx.send(random.choice(Taego_list))
 
 @client.command(aliases=['Deston','deston'])
-async def _Deston(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Deston(ctx):
     await ctx.send(random.choice(Deston_list))    
 
 @client.command(aliases=['Rondo','rondo'])
-async def _Rondo(ctx):
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Rondo(ctx):
     await ctx.send(random.choice(Rondo_list))
-    
+
+#Error handling for excessive use
+@Erangel.Error
+@Vikendi.Error
+@Miramar.Error
+@Sanhok.Error
+@Taego.Error
+@Deston.Error
+@Rondo.Error
+@Maps.Error
+@Test.Error
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandOnCooldown):
+        await ctx.send(f"You're too many commands too fast. Try again in {error.retry_after:.2f} seconds.")
+
+
 #Reference to the webhost file    
 keep_alive()
+
 client.run(TOKEN)
